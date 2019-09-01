@@ -14,37 +14,51 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const getAjax = document.querySelector('.get_ajax');
     const pingButton = document.querySelector('.ping_button');
-    const ajaxDataElm = document.getElementById('ping');
-    const pongButton = document.getElementById('pong_button');
+    const pongButton = document.querySelector('.pong_button');
+    let section = document.querySelector('section');
+
 
     getAjax.addEventListener('click', () => {
-        axios.get('http://intro-ajax-api.herokuapp.com/')
+        axios.get('http://intro-ajax-api.herokuapp.com/').then(function(response) {
             console.log("--- Works")
-    })
-    pingButton.addEventListener('click', () => {
-        const request = axios.get('http://intro-ajax-api.herokuapp.com/ping')
-        request.then(function(response) {
-            console.log(response.data)
-            const dataElm = document.createElement("span");
-            dataElm.innerHTML = response.data;
-            ajaxDataElm.innerHTML = '';
-            ajaxDataElm.appendChild(dataElm);
-        })
-        .then(function() {
-            console.log('___SUCCESS')
-        })
-        .catch(function() {
-            console.log('___FAIL')
         })
     })
-    pongButton.addEventListener('click', () => {
-        const request = axios.get('http://intro-ajax-api.herokuapp.com/pong')
-        request.then(function(response) {
+    
+    pingButton.addEventListener('click', () =>{
+        let request = axios.get('http://intro-ajax-api.herokuapp.com/ping').then(function(response){
             console.log(response.data)
-            const dataElm = document.createElement('span');
-            dataElm.innerHTML = response.data;
-            ajaxDataElm.innerHTML = '';
-            ajaxDataElm.appendChild(dataElm);
+            const dataElem = document.createElement('p')
+            dataElem.innerHTML = response.data
+            section.appendChild(dataElem)
+        })
+        .catch(function(response){
+            const dataElem = document.createElement('p')
+            dataElem.innerHTML = "500 Error: we'll try harder next time (PING)"
+            section.appendChild(dataElem)
+        })
+        .then(function(response){
+            const dataElem = document.createElement('p')
+            dataElem.innerHTML = "Hey the Ping request Finished!"
+            section.appendChild(dataElem)
+        })
+    });
+
+    pongButton.addEventListener('click', () =>{
+        let request = axios.get('http://intro-ajax-api.herokuapp.com/pong').then(function(response){
+            console.log(response.data)
+            const dataElem = document.createElement('p')
+            dataElem.innerHTML = response.data
+            section.appendChild(dataElem)
+        })
+        .catch(function(response){
+            const dataElem = document.createElement('p')
+            dataElem.innerHTML = "500 Error: we'll try harder next time (PONG)"
+            section.appendChild(dataElem)
+        })
+        .then(function(response){
+            const dataElem = document.createElement('p')
+            dataElem.innerHTML = "Hey the Pong request Finished!"
+            section.appendChild(dataElem)
         })
     })
 });
